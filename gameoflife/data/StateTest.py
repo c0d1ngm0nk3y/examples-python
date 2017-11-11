@@ -22,8 +22,11 @@ class StateTest(unittest.TestCase):
 
     def test_set_alive_1_3(self):
         state = State(5, 5)
+        self.assertFalse(state.is_alive(1, 3))
+        self.assertTrue(state.is_dead(1, 3))
         state.set_alive(1, 3)
         self.assertTrue(state.is_alive(1, 3))
+        self.assertFalse(state.is_dead(1, 3))
 
     def test_set_alive_2_4(self):
         state = State(5, 5)
@@ -39,6 +42,35 @@ class StateTest(unittest.TestCase):
         state = State(5, 5)
         self.assertFalse(state.is_alive(1, 5))
         self.assertFalse(state.is_dead(1, 5))
+
+    def test_negativ_row(self):
+        state = State(5, 5)
+        self.assertFalse(state.is_alive(-1, 1))
+        self.assertFalse(state.is_dead(-1, 1))
+
+    def test_negativ_column(self):
+        state = State(5, 5)
+        self.assertFalse(state.is_alive(1, -1))
+        self.assertFalse(state.is_dead(1, -1))
+
+    def test_equality_default(self):
+        state1 = State(5, 5)
+        state2 = State(5, 5)
+        self.assertEqual(state1, state2)
+
+    def test_equality_changed(self):
+        state1 = State(5, 5)
+        state1.set_alive(0, 0)
+        state2 = State(5, 5)
+        state2.set_alive(0, 0)
+        self.assertEqual(state1, state2)
+
+    def test_equality_not(self):
+        state1 = State(5, 5)
+        state2 = State(5, 5)
+        self.assertFalse(state1 != state2)
+        state1.set_alive(0, 0)
+        self.assertTrue(state1 != state2)
 
 
 if __name__ == '__main__':

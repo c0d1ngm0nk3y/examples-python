@@ -12,6 +12,12 @@ class State(object):
         self.columns = columns
         self.field = array('b', self.CELL_DEAD * rows * columns)
 
+    def __eq__(self, other):
+        return self.field.__eq__(other.field)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def _get_cell(self, x_coord, y_coord):
         if not self._check_coordinates(x_coord, y_coord):
             return None
@@ -27,7 +33,7 @@ class State(object):
         return value == self.CELL_ALIVE_INT
 
     def _check_coordinates(self, x_coord, y_coord):
-        return (x_coord < self.rows) and (y_coord < self.columns)
+        return (-1 < x_coord < self.rows) and (-1 < y_coord < self.columns)
 
     def get_dimensions(self):
         return (self.rows, self.columns)
