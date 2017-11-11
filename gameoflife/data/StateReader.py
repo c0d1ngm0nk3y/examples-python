@@ -11,4 +11,16 @@ def from_string(rows, columns, string):
     return state
 
 def from_file(filename):
-    return filename
+    file_in = open(filename, "r")
+    line = file_in.readline()
+    sizes = line.split()
+    rows = int(sizes[0])
+    columns = int(sizes[1])
+    string = ""
+    for line in file_in.readlines():
+        string += line.strip()
+
+    state = from_string(rows, columns, string)
+
+    file_in.close()
+    return state
