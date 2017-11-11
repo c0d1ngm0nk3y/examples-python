@@ -8,5 +8,13 @@ class State(object):
         self.field = "." * rows * columns
 
     def get_cell(self, x_coord, y_coord):
+        if not self._check_coordinates(x_coord, y_coord):
+            return None
         i = x_coord * self.columns + y_coord
         return self.field[i]
+
+    def _check_coordinates(self, x_coord, y_coord):
+        return (x_coord < self.rows) and (y_coord < self.columns)
+
+    def get_dimensions(self):
+        return (self.rows, self.columns)
