@@ -41,3 +41,14 @@ class State(object):
     def set_alive(self, row, column):
         i = row * self.columns + column
         self.field[i] = self.CELL_ALIVE_INT
+
+    def count_alive_neighbours(self, row, column):
+        count = 0
+        for n_row in xrange(row - 1, row + 2):
+            for n_column in xrange(column - 1, column + 2):
+                if self.is_alive(n_row, n_column):
+                    count += 1
+
+        if self.is_alive(row, column):
+            count -= 1
+        return count
