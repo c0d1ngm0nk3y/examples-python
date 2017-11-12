@@ -34,8 +34,20 @@ class GameTest(unittest.TestCase):
 
         self.assertFalse(next_state.is_alive(1, 1))
 
-    def test_ressurrect_4(self):
+    def test_not_ressurrect_4(self):
         state = from_string(2, 3, "*.**.*")
+        next_state = next_generation(state)
+
+        self.assertFalse(next_state.is_alive(1, 1))
+
+    def test_not_ressurrect_2(self):
+        state = from_string(2, 3, "...*.*")
+        next_state = next_generation(state)
+
+        self.assertFalse(next_state.is_alive(1, 1))
+
+    def test_ressurrect_3(self):
+        state = from_string(2, 3, ".*.*.*")
         next_state = next_generation(state)
 
         self.assertTrue(next_state.is_alive(1, 1))

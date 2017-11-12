@@ -9,11 +9,11 @@ def next_generation(state):
             count = state.count_alive_neighbours(row, column)
             if count < 2:
                 pass
-            elif count == 2 or count == 3:
+            elif (count == 2 or count == 3) and state.is_alive(row, column):
                 next_state.set_alive(row, column)
-            elif state.is_alive(row, column):
-                pass
+            elif count == 3:
+                next_state.set_alive(row, column)
             else:
-                next_state.set_alive(row, column)
+                pass
 
     return next_state
