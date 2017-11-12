@@ -9,15 +9,15 @@ class Player(object):
     CELL_COLOR_DEAD = '#000000'
     BACKGROUND = '#888888'
     TITLE = "Game Of Life"
-    DELAY = 2000
+    DELAY = 1500
 
     def __init__(self, initialState):
         self.state = initialState
         self.frame = None
         self.canvas = None
+        self.pause = True
 
     def start(self):
-        print "START"
         root = tk.Tk()
         self.frame = tk.Frame(root)
         (rows, columns) = self.state.get_dimensions()
@@ -27,10 +27,12 @@ class Player(object):
         self.canvas.pack()
         root.title(self.TITLE)
         self.draw_state()
-        #self.canvas.bind("<Left>", self.next_step)
-        self.frame.after(5000, self.next_step)
+        self.canvas.bind("<Button-1>", self.mouse_clicked)
+        self.frame.after(self.DELAY, self.next_step)
         root.mainloop()
-        print "END"
+
+    def mouse_clicked(self, _):
+        self.pause = not self.pause
 
     def draw_state(self):
         (rows, columns) = self.state.get_dimensions()
@@ -46,13 +48,14 @@ class Player(object):
                                         fill=color)
 
     def next_step(self):
-        self.state = next_generation(self.state)
-        self.draw_state()
+        if not self.pause:
+            self.state = next_generation(self.state)
+            self.draw_state()
         self.frame.after(self.DELAY, self.next_step)
 
 
 def main():
-    state = from_file("gameoflife/examples/simple.txt")
+    state = from_file("gameoflife/examples/middle.txt")
     player = Player(state)
     player.start()
 
